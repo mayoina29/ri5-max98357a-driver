@@ -1,0 +1,57 @@
+/dts-v1/;
+/plugin/;
+
+/* 라즈베리 파이 5 MAX98357A 오디오 드라이버 오버레이 */
+
+/ { 
+    compatible = "brcm,bcm2712";
+
+    /* 앰프 칩 정보 */
+    fragment@0 {
+        target-path ="/";
+        __overlay__ {
+            my_max98357a_codec: my_max98357a-codec {
+                #sound-dai-cells = <0>;
+                compatible = "test,my-amp_max98357a";
+
+                sdmode-gpios = <&gpio 23 0>;
+                status = "okay";
+            };
+        };
+    };
+
+    /* 사운드 카드 등록 */
+
+    fragment@1 {
+        target = <&i2s>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
+
+    fragment@2 {
+        target-path = "/";
+        __overlay__ {
+            sound {
+                compatible = "simple-audio-card";
+                simple-audio-card,name = "My-Max98357A";
+                simple-audio-card,format = "i2s";
+
+                /*마스터 /슬레이브 설정*/
+                simple-audio-card,bitclock-master = <&dailink0_master>;
+                simple-audio-card,frame-master = <&dailink0_master>;
+                
+                /*cpu 연결설정*/
+                dailink0_master: simple-audio-card,cpu {
+                    sound-dai = <&i2s>;
+                };
+
+                /*코덱 연결 설정*/
+                simple-audio-card,codec {
+                    sound-dai = <&my_max98357a_codec>;
+                };
+            };
+        };
+    };
+};
+
