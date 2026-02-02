@@ -6,13 +6,12 @@
 
 # MAX98357A Linux ASoC Audio Driver for Raspberry Pi 5
 
-라즈베리파이 5에서 **MAX98357A I2S Mono Amplifier**를 구동하기 위한 **리눅스 ASoC (ALSA System on Chip) 드라이버**입니다.
+라즈베리파이 5에서 **MAX98357A I2S Mono Amplifier**를 구동하기 위한 **리눅스 드라이버 모듈**입니다.
 
 단순한 오디오 출력을 넘어, **Device Tree Overlay**를 직접 작성하여 라즈베리 파이 5의 대응하였으며, 커널 드라이버를 통해 앰프의 **Enable/Shutdown (GPIO 23)** 상태를 제어하여 팝 노이즈(Pop-noise)를 방지하고 전력 효율을 관리합니다.
 
 ## 주요 기능 (Features)
 * **ASoC 프레임워크 구현:** Machine-Platform-Codec 구조에 맞춘 ALSA 드라이버 등록
-* **GPIO 기반 전원 관리:** 오디오 재생 시에만 앰프를 활성화(Enable)하는 로직 구현
 * **Device Tree Overlay 적용:** RPi 5의 I2S 인터페이스(`&i2s`)와 GPIO 핀맵핑 커스터마이징
 * **표준 ALSA 인터페이스:** `aplay`, `speaker-test`, `mpg123` 등 표준 리눅스 오디오 유틸리티 호환
 
